@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire d'Enregistrement - La Caracola Salento</title>
+    <meta name="description" content="Formulaire d'enregistrement multilingue pour l'hôtel La Caracola à Salento. Réservez votre séjour en français, espagnol ou anglais avec service de transfert inclus.">
+    
+    <!-- Open Graph pour partage WhatsApp -->
+    <meta property="og:title" content="Formulaire d'Enregistrement - La Caracola Salento">
+    <meta property="og:description" content="Formulaire d'enregistrement multilingue pour l'hôtel La Caracola à Salento">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.lacaracolahotel.com/images/hotel-preview.jpg">
+    
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .success-animation {
+            animation: successPulse 0.6s ease-in-out;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">🏨 La Caracola - Salento</h1>
+            <p class="text-lg opacity-90" id="headerSubtitle">Formulaire d'Enregistrement</p>
+        </div>
+    </header>
+
+    <!-- Language Selector -->
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-center">
+            <div class="bg-white rounded-lg shadow-md p-2 flex gap-2">
+                <button onclick="setLanguage('fr')" class="language-btn px-4 py-2 rounded-md font-medium active" data-lang="fr">🇫🇷 Français</button>
+                <button onclick="setLanguage('es')" class="language-btn px-4 py-2 rounded-md font-medium" data-lang="es">🇪🇸 Español</button>
+                <button onclick="setLanguage('en')" class="language-btn px-4 py-2 rounded-md font-medium" data-lang="en">🇬🇧 English</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Form -->
+    <main class="container mx-auto px-4 pb-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl card-shadow p-8">
+                <form id="registrationForm" class="space-y-6">
+                    <!-- Dates Section -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="arrivalDate" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="arrival_date">Date d'arrivée *</label>
+                            <input type="date" id="arrivalDate" name="arrivalDate" required class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label for="departureDate" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="departure_date">Date de départ *</label>
+                            <input type="date" id="departureDate" name="departureDate" required class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="arrivalTime" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="arrival_time">Heure d'arrivée approximative</label>
+                        <input type="time" id="arrivalTime" name="arrivalTime" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none">
+                    </div>
+
+                    <!-- Transport Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800" data-translate="transport_title">Transport</h3>
+                        
+                        <div>
+                            <label for="transportMethod" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="transport_method">Moyen de transport</label>
+                            <select id="transportMethod" name="transportMethod" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none">
+                                <option value="" data-translate="transport_select">Sélectionnez...</option>
+                                <option value="car" data-translate="transport_car">Véhicule personnel</option>
+                                <option value="bus" data-translate="transport_bus">Bus</option>
+                                <option value="plane" data-translate="transport_plane">Avion</option>
+                                <option value="other" data-translate="transport_other">Autre</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="transferService" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="transfer_service">Service de transfert</label>
+                            <select id="transferService" name="transferService" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none">
+                                <option value="none" data-translate="no_transfer">Pas de transfert nécessaire</option>
+                                <option value="pereira_airport" data-translate="transfer_pereira">Taxi depuis l'aéroport de Pereira - 200.000 COP</option>
+                                <option value="armenia_airport" data-translate="transfer_armenia_airport">Taxi depuis l'aéroport d'Armenia - 175.000 COP</option>
+                                <option value="armenia_bus" data-translate="transfer_armenia_bus">Taxi depuis le terminal de bus d'Armenia - 140.000 COP</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Guests Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800" data-translate="guest_info_title">Informations sur les hôtes</h3>
+                        
+                        <div>
+                            <label for="guestCount" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="guest_count">Nombre d'hôtes:</label>
+                            <select id="guestCount" name="guestCount" onchange="updateGuestForms()" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+
+                        <div id="guestForms" class="space-y-6">
+                            <!-- Guest forms will be generated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Preferences Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800" data-translate="preferences_title">Préférences</h3>
+                        
+                        <div>
+                            <label for="foodAllergies" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="food_allergies">Allergies alimentaires</label>
+                            <textarea id="foodAllergies" name="foodAllergies" rows="3" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none" data-translate-placeholder="food_allergies_placeholder"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="sleepingPreference" class="block text-sm font-semibold text-gray-700 mb-2" data-translate="sleeping_preference">Préférence de couchage</label>
+                            <select id="sleepingPreference" name="sleepingPreference" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none">
+                                <option value="" data-translate="sleeping_select">Sélectionnez...</option>
+                                <option value="double_bed" data-translate="sleeping_double">Lit double</option>
+                                <option value="single_beds" data-translate="sleeping_single">Lits séparés</option>
+                                <option value="no_preference" data-translate="sleeping_no_pref">Aucune préférence</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-6">
+                        <button type="submit" id="submitBtn" class="w-full whatsapp-btn text-white py-4 px-6 rounded-lg font-semibold text-lg flex items-center justify-center gap-3 transition-all duration-300">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                            <span data-translate="submit_registration">Envoyer la réservation</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full text-center success-animation">
+            <div class="text-green-500 mb-4">
+                <i data-lucide="check-circle" class="w-16 h-16 mx-auto"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4" data-translate="success_title">Réservation envoyée !</h3>
+            <p class="text-gray-600 mb-6" data-translate="success_message">Votre réservation a été envoyée avec succès. Vous allez recevoir une confirmation par email.</p>
+            
+            <div class="space-y-3">
+                <button id="whatsappBtn" class="w-full whatsapp-btn text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                    <span data-translate="send_whatsapp">Envoyer via WhatsApp</span>
+                </button>
+                
+                <button onclick="closeSuccessModal()" class="w-full bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold" data-translate="close">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
