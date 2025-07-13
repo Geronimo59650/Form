@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide GitHub Pages - La Caracola</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .step-card { transition: all 0.3s ease; }
+        .step-card:hover { transform: translateY(-4px); }
+        .code-block { 
+            background: #1e293b; 
+            color: #e2e8f0; 
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        .copy-btn { 
+            background: #3b82f6;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover { background: #2563eb; }
+        .success-bg { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">🚀 Guide GitHub Pages</h1>
+            <p class="text-lg opacity-90">Hébergement 100% gratuit pour La Caracola Salento</p>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        
+        <!-- Étape 1: EmailJS -->
+        <div class="step-card bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div class="flex items-center mb-6">
+                <div class="bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</div>
+                <h2 class="text-2xl font-bold text-gray-800">Configuration EmailJS (5 minutes)</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                    <p class="text-blue-800"><strong>Pourquoi EmailJS ?</strong> Service gratuit qui permet d'envoyer des emails directement depuis votre site web sans serveur.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">📧 Créer votre compte</h3>
+                        <ol class="space-y-2 text-gray-700">
+                            <li>1. Allez sur <a href="https://www.emailjs.com/" target="_blank" class="text-blue-600 underline">emailjs.com</a></li>
+                            <li>2. Cliquez "Sign Up" (gratuit)</li>
+                            <li>3. Vérifiez votre email</li>
+                            <li>4. Connectez-vous au dashboard</li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">⚙️ Configuration</h3>
+                        <ol class="space-y-2 text-gray-700">
+                            <li>1. Email Services → Add Service → Gmail</li>
+                            <li>2. Email Templates → Create Template</li>
+                            <li>3. Account → API Keys → Public Key</li>
+                            <li>4. Notez vos 3 identifiants</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">📋 Template EmailJS à utiliser :</h4>
+                    <div class="code-block p-3 text-sm">
+                        <p><strong>Subject:</strong> Nouvelle réservation La Caracola - {{guest_email}}</p>
+                        <p><strong>Body:</strong> {{message}}</p>
+                        <p><strong>Reply To:</strong> {{reply_to}}</p>
+                    </div>
+                </div>
+                
+                <div id="emailjsForm" class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                    <h4 class="font-semibold mb-4">🔑 Vos identifiants EmailJS :</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Public Key</label>
+                            <input type="text" id="publicKey" placeholder="user_xxxxxxxxx" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Service ID</label>
+                            <input type="text" id="serviceId" placeholder="service_xxxxxxx" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Template ID</label>
+                            <input type="text" id="templateId" placeholder="template_xxxxxxx" class="w-full p-2 border rounded">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium mb-1">Votre Email de Réception</label>
+                        <input type="email" id="hotelEmail" placeholder="contact@lacaracolahotel.com" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Étape 2: GitHub -->
+        <div class="step-card bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div class="flex items-center mb-6">
+                <div class="bg-purple-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</div>
+                <h2 class="text-2xl font-bold text-gray-800">Créer le Repository GitHub</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">🔧 Création du repository</h3>
+                        <ol class="space-y-2 text-gray-700">
+                            <li>1. Allez sur <a href="https://github.com" target="_blank" class="text-blue-600 underline">github.com</a></li>
+                            <li>2. Créez un compte (gratuit)</li>
+                            <li>3. Cliquez "New repository"</li>
+                            <li>4. Nom: "la-caracola-form"</li>
+                            <li>5. Cochez "Public"</li>
+                            <li>6. Cliquez "Create repository"</li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">📁 Upload des fichiers</h3>
+                        <ol class="space-y-2 text-gray-700">
+                            <li>1. Cliquez "uploading an existing file"</li>
+                            <li>2. Glissez les 3 fichiers générés</li>
+                            <li>3. Commit message: "Initial commit"</li>
+                            <li>4. Cliquez "Commit changes"</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                    <p class="text-yellow-800"><strong>⚠️ Important :</strong> Avant d'uploader, modifiez le fichier script.js avec vos identifiants EmailJS ci-dessus !</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Étape 3: GitHub Pages -->
+        <div class="step-card bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div class="flex items-center mb-6">
+                <div class="bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</div>
+                <h2 class="text-2xl font-bold text-gray-800">Activer GitHub Pages</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">🌐 Activation</h3>
+                        <ol class="space-y-2 text-gray-700">
+                            <li>1. Dans votre repository → Settings</li>
+                            <li>2. Scroll vers "Pages" (menu gauche)</li>
+                            <li>3. Source: "Deploy from a branch"</li>
+                            <li>4. Branch: "main"</li>
+                            <li>5. Folder: "/ (root)"</li>
+                            <li>6. Cliquez "Save"</li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">⏱️ Déploiement</h3>
+                        <div class="space-y-2 text-gray-700">
+                            <p>• Attendre 2-5 minutes</p>
+                            <p>• GitHub génère le site automatiquement</p>
+                            <p>• URL finale : <code class="bg-gray-200 px-2 py-1 rounded">username.github.io/la-caracola-form</code></p>
+                            <p>• Certificat SSL automatique (HTTPS)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                    <p class="text-green-800"><strong>✅ Succès !</strong> Votre formulaire sera accessible 24h/24, 7j/7, gratuitement !</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Étape 4: Intégration -->
+        <div class="step-card bg-white rounded-xl shadow-lg p-8 mb-8">
+            <div class="flex items-center mb-6">
+                <div class="bg-orange-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</div>
+                <h2 class="text-2xl font-bold text-gray-800">Intégration sur votre site</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-semibold text-lg mb-3">🔗 URL de votre formulaire</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="finalUrl" placeholder="https://username.github.io/la-caracola-form/" 
+                               class="flex-1 p-3 border-2 border-gray-200 rounded-lg font-mono text-sm">
+                        <button onclick="copyUrl()" class="copy-btn text-white px-4 py-2 rounded-lg font-semibold">
+                            📋 Copier
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">🖼️ Code iframe (recommandé)</h3>
+                        <div class="code-block p-3 text-sm relative">
+                            <code id="iframeCode">&lt;iframe src="https://username.github.io/la-caracola-form/" width="100%" height="800px" frameborder="0" title="Formulaire La Caracola"&gt;&lt;/iframe&gt;</code>
+                            <button onclick="copyIframe()" class="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs">Copier</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">📱 Message WhatsApp</h3>
+                        <div class="code-block p-3 text-sm relative">
+                            <code id="whatsappMsg">🏨 La Caracola Salento<br><br>Formulaire d'enregistrement :<br><span id="whatsappUrl">https://username.github.io/la-caracola-form/</span><br><br>✅ 3 langues<br>🚗 Transferts inclus<br>📱 Mobile-friendly</code>
+                            <button onclick="copyWhatsApp()" class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded text-xs">Copier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Résumé Final -->
+        <div class="success-bg text-white rounded-xl p-8 text-center">
+            <div class="mb-4">
+                <i data-lucide="check-circle" class="w-16 h-16 mx-auto"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-4">🎉 Félicitations !</h2>
+            <p class="text-lg mb-6">Votre formulaire La Caracola est maintenant en ligne, gratuitement et pour toujours !</p>
+            
+            <div class="grid md:grid-cols-3 gap-6 text-center">
+                <div>
+                    <div class="font-semibold">💰 Coût Total</div>
+                    <div class="text-2xl">0€</div>
+                </div>
+                <div>
+                    <div class="font-semibold">📧 Emails/mois</div>
+                    <div class="text-2xl">200 gratuits</div>
+                </div>
+                <div>
+                    <div class="font-semibold">⏰ Disponibilité</div>
+                    <div class="text-2xl">24h/24</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Update URLs when user types
+        document.getElementById('finalUrl').addEventListener('input', function() {
+            const url = this.value;
+            document.getElementById('whatsappUrl').textContent = url;
+            document.getElementById('iframeCode').textContent = `<iframe src="${url}" width="100%" height="800px" frameborder="0" title="Formulaire La Caracola"></iframe>`;
+        });
+        
+        function copyUrl() {
+            const url = document.getElementById('finalUrl');
+            url.select();
+            document.execCommand('copy');
+            showCopySuccess('URL copiée !');
+        }
+        
+        function copyIframe() {
+            const iframe = document.getElementById('iframeCode').textContent;
+            navigator.clipboard.writeText(iframe);
+            showCopySuccess('Code iframe copié !');
+        }
+        
+        function copyWhatsApp() {
+            const msg = document.getElementById('whatsappMsg').textContent.replace(/\n/g, '\\n');
+            navigator.clipboard.writeText(msg);
+            showCopySuccess('Message WhatsApp copié !');
+        }
+        
+        function showCopySuccess(message) {
+            const popup = document.createElement('div');
+            popup.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg z-50';
+            popup.textContent = message;
+            document.body.appendChild(popup);
+            setTimeout(() => popup.remove(), 2000);
+        }
+        
+        // Generate updated script.js with user's EmailJS config
+        function generateScriptFile() {
+            const publicKey = document.getElementById('publicKey').value;
+            const serviceId = document.getElementById('serviceId').value;
+            const templateId = document.getElementById('templateId').value;
+            const hotelEmail = document.getElementById('hotelEmail').value;
+            
+            if (!publicKey || !serviceId || !templateId || !hotelEmail) {
+                alert('Veuillez remplir tous les champs EmailJS');
+                return;
+            }
+            
+            // This would generate the updated script.js file
+            alert('Parfait ! Maintenant utilisez ces identifiants dans le fichier script.js avant de l\'uploader sur GitHub.');
+        }
+        
+        // Add event listeners to EmailJS form
+        document.querySelectorAll('#emailjsForm input').forEach(input => {
+            input.addEventListener('input', generateScriptFile);
+        });
+    </script>
+</body>
+</html>
